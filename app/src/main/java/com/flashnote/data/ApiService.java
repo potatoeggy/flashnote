@@ -29,7 +29,7 @@ public class ApiService {
         return cardCall;
     }
 
-    public static void getCardsByTag(final List<Tag> tags) {
+    public static void getCardsByTag(final List<Tag> tags) { // TODO — critical: call getTagsByCard for each one
         new Thread() {
             public void run() {
                 DataStateHelper.getHelperLock();
@@ -91,9 +91,23 @@ public class ApiService {
         }.start();
     }
     
-    public static Call<List<Tag>> getTagsByUsername(String username) {
-        String usernames = "eq.(" + username + ")";
-        return restService.getTagsByUsername(DROPBASE_DB, DROPBASE_AUTH, usernames);
+    public static void getTagsByUsername(final String username) {
+        new Thread() {
+            public void run() {
+                String usernames = "eq." + username;
+                Call<List<Tag>> tagCall = restService.getTagsByUsername(DROPBASE_DB, DROPBASE_AUTH, usernames);
+                try {
+                    Response<List<Tag>> tagResponse = tagCall.execute();
+                    if (tagResponse.isSuccessful()) {
+                        DataStateHelper.setTagList(tagResponse.body());
+                    } else {
+                        System.out.println("ERROR: " + tagResponse.toString());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
     
     public static Call<List<Tag>> getTagsByUsername(List<String> usernames) {
@@ -109,8 +123,8 @@ public class ApiService {
         List<Tag> list = new ArrayList<Tag>();
         list.add(new Tag("chemistry", "potatoeggy", "#FFFFFF"));
         list.get(0).setId("06ec495e-c36a-4a62-a41e-aeebe35d9bb2");
-        getCardsByUsername("potatoeggy");
-        for (Card c : DataStateHelper.getClientCardList()) {
+        getTagsByUsername("potatoeggy");
+        for (Tag c : DataStateHelper.getClientTagList()) {
             System.out.println(c.toString());
         }
     }
