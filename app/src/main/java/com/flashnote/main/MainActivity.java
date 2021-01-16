@@ -1,9 +1,6 @@
-package com.example.flashnote;
+package com.flashnote.main;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +21,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.example.flashnote.R;
+import com.flashnote.data.ApiService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+	    ApiService.main(new String[]{});
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
