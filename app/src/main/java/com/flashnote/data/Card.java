@@ -44,7 +44,7 @@ public class Card extends DropbaseData {
             String[] mockTagList = tags.split(",");
             for (String s : mockTagList) {
                 String[] tag = s.split(":");
-                this.tagList.add(new Tag(tag[0], State.getLocalUsername(), tag[1]));
+                this.tagList.add(new Tag(tag[0], DataState.getLocalUsername(), tag[1]));
             }
         }
         return this.tagList;
@@ -72,7 +72,7 @@ public class Card extends DropbaseData {
     }
     
     public String toString() {
-        return this.username + " Q: " + this.question + " A: " + this.answer + "\n with tags: ";
+        return this.username + " Q: " + this.question + " A: " + this.answer + "\n with tags: " + this.tags;
         // TODO: return tags
     }
 }

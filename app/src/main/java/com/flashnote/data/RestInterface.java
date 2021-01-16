@@ -36,5 +36,7 @@ public interface RestInterface {
     @GET("/{db}/tags")
     Call<List<Tag>> getTagsByUsername(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) String usernames);
     @GET("/{db}/tags")
+    Call<List<Tag>> getTagByNameAndUsername(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) String usernames, @Query(value = "name", encoded = true) String tags);
+    @GET("/{db}/tags")
     Call<List<Tag>> getAllTags(@Path("db") String db, @Header("Authorization") String token);
 }
