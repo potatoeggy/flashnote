@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("ResourceType")
     void loadCards(){
         makeDummy();
+        State.cards.clear();
         State.cards.add(dummy);
 
         ArrayList<Tag> tags = new ArrayList<>();
