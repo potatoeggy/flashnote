@@ -7,14 +7,15 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Url;
 
 public interface DropbaseAmazonInterface {
-    @PUT("{path}")
-    Call<ResponseBody> pushCardsToPipeline(@Path("path") String path, @Body List<Card> cards);
+    @PUT
+    Call<ResponseBody> pushCardsToPipeline(@Url String url, @Body List<Card> cards);
     
-    @PUT("{path}")
-    Call<ResponseBody> pushTagsToPipeline(@Path("path") String path, @Body List<Tag> tags);
+    @PUT
+    Call<ResponseBody> pushTagsToPipeline(@Url String url, @Body List<Tag> tags);
     
-    @PUT("{path}")
-    Call<ResponseBody> pushIdMapToPipeline(@Path("path") String path, @Body List<IdMap> idMaps);
+    @PUT
+    Call<ResponseBody> pushIdMapToPipeline(@Url String url, @Body List<IdMap> idMaps);
 }

@@ -18,6 +18,8 @@ public abstract class DropbaseData {
         return this.dropbase_id;
     }
     
+    public void setId(String id) {this.dropbase_id = id;}
+    
     public String getTimestamp() {
         return this.dropbase_ts;
     }

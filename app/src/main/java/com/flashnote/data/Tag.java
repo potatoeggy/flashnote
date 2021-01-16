@@ -16,6 +16,7 @@ public class Tag extends DropbaseData {
 
     public Tag(String name, String username, String colour) {
         this.name = name;
+        this.username = username;
         this.colour = colour;
     }
     

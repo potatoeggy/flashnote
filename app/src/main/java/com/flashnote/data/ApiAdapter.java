@@ -38,6 +38,7 @@ public class ApiAdapter {
         if (emptyRetrofit == null) {
             emptyRetrofit = new Retrofit
                     .Builder()
+                    .baseUrl("https://thisshouldnotbeused")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
