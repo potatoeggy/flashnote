@@ -26,6 +26,7 @@ public class ApiService {
         cardIds = cardIds.substring(0,cardIds.length()-1) + ")";
         
         Call<List<Card>> cardCall = restService.getCardsById(DROPBASE_DB, DROPBASE_AUTH, cardIds);
+        return cardCall;
     }
 
     public static void getCardsByTag(List<Tag> tags) {
@@ -45,19 +46,22 @@ public class ApiService {
                         @Override
                         public void onResponse(Call<List<Card>> call, Response<List<Card>> response) {
                             if (response.isSuccessful()) {
-                                
+                                // change state
                             } else {
                                 System.out.println("ERROR: " + response.toString());
+                                // change state
                             }
                         }
 
                         @Override
                         public void onFailure(Call<List<Card>> call, Throwable t) {
                             t.printStackTrace();
+                            // change state
                         }
                     });
                 } else {
                     System.out.println("ERROR: " + response.toString());
+                    // change state
                 }
             }
 

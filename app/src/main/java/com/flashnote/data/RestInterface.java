@@ -19,11 +19,11 @@ public interface RestInterface {
     @GET("/{db}/users")
     Call<List<User>> getAllUsers(@Path("db") String db, @Header("Authorization") String token);
 
-    @GET("/{db}/cards")
+    @GET("/{db}/cards2")
     Call<List<Card>> getCardsById(@Path("db") String db, @Header("Authorization") String token, @Query(value = "dropbase_id", encoded = true) String ids);
-    @GET("/{db}/cards")
+    @GET("/{db}/cards2")
     Call<List<Card>> getCardsByUsername(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) List<String> usernames);
-    @GET("/{db}/cards")
+    @GET("/{db}/cards2")
     Call<List<Card>> getAllCards(@Path("db") String db, @Header("Authorization") String token);
 
     @GET("/{db}/maps")
