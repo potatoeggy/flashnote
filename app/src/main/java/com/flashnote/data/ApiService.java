@@ -24,7 +24,7 @@ public class ApiService {
         return null;
     }
 
-    public static List<Card> getCardsByTag(List<Tag> tags) throws Exception {
+    public static Call<List<IdMap>> getCardsByTag(List<Tag> tags) throws Exception {
         List<String> tagIds = new ArrayList<String>();
         for (Tag t : tags) {
             if (t.getId() == null) throw new Exception("i'll fix later please never run into this");
@@ -32,37 +32,8 @@ public class ApiService {
         }
 
         Call<List<IdMap>> idMapCall = restService.getMapByTagId(DROPBASE_DB, DROPBASE_AUTH, tagIds);
-        idMapCall.enqueue(new Callback<List<IdMap>>() {
-            @Override
-            public void onResponse(Call<List<IdMap>> call, Response<List<IdMap>> response) {
-                List<String> cardMaps = new ArrayList<String>();
-                if (response.isSuccessful()) {
-                    for (IdMap i : response.body()) {
-                        cardMaps.add(i.getCardId());
-                    }
-                }
-                
-                List<Card> cards; // oh my god we don't have tag data
-                Call<List<Card>> cardCall = restService.getCardsById(DROPBASE_DB, DROPBASE_AUTH, cardMaps);
-                Response<List<Card>> cardResponse;
-                try {
-                    cardResponse = cardCall.execute();
-                    if (!cardResponse.isSuccessful()) throw new Exception("invalid query or smth");
-                    return cardResponse.body();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<IdMap>> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
-        return cardResponse.body();
+        return idMapCall;
     }
     
     public static Call<List<Card>> getCardsByUsername(String username) { // hard (because no tags) — alternatively, modify data structure to include a rudimentary bit to fast process locally
