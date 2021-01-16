@@ -1,7 +1,8 @@
-package com.example.flashnote;
+package com.flashnote.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.example.flashnote.R;
 
 public class MainActivity extends AppCompatActivity {
 	
