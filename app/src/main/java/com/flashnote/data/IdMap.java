@@ -4,18 +4,18 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class IdMap extends DropbaseData {
-    @SerializedName("cardId")
+    @SerializedName("cardid")
     @Expose
-    private String cardId;
-    @SerializedName("tagId")
+    private String cardid;
+    @SerializedName("tagid")
     @Expose
-    private String tagId;
+    private String tagid;
     
     public String getCardId() {
-        return this.cardId;
+        return this.cardid;
     }
 
     public String getTagId() {
-        return this.tagId;
+        return this.tagid;
     }
 }

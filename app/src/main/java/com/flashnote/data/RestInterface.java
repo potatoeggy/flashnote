@@ -13,28 +13,28 @@ import retrofit2.http.Query;
 public interface RestInterface {
     // I'm sure there's a way to shorten this but I'm not sure how
     @GET("/{db}/users")
-    Call<List<User>> getUsersById(@Path("db") String db, @Header("Authorization") String token, @Query("dropbase_id") List<String> ids);
+    Call<List<User>> getUsersById(@Path("db") String db, @Header("Authorization") String token, @Query(value = "dropbase_id", encoded = true) String ids);
     @GET("/{db}/users")
-    Call<List<User>> getUsersByUsername(@Path("db") String db, @Header("Authorization") String token, @Query("username") List<String> ids);
+    Call<List<User>> getUsersByUsername(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) String ids);
     @GET("/{db}/users")
     Call<List<User>> getAllUsers(@Path("db") String db, @Header("Authorization") String token);
 
     @GET("/{db}/cards")
-    Call<List<Card>> getCardsById(@Path("db") String db, @Header("Authorization") String token, @Query("dropbase_id") List<String> ids);
+    Call<List<Card>> getCardsById(@Path("db") String db, @Header("Authorization") String token, @Query(value = "dropbase_id", encoded = true) String ids);
     @GET("/{db}/cards")
-    Call<List<Card>> getCardsByUsername(@Path("db") String db, @Header("Authorization") String token, @Query("username") List<String> usernames);
+    Call<List<Card>> getCardsByUsername(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) List<String> usernames);
     @GET("/{db}/cards")
     Call<List<Card>> getAllCards(@Path("db") String db, @Header("Authorization") String token);
 
     @GET("/{db}/maps")
-    Call<List<IdMap>> getMapByCardId(@Path("db") String db, @Header("Authorization") String token, @Query("cardId") List<String> cardIds);
+    Call<List<IdMap>> getMapByCardId(@Path("db") String db, @Header("Authorization") String token, @Query(value = "cardid", encoded = true) List<String> cardIds);
     @GET("/{db}/maps")
-    Call<List<IdMap>> getMapByTagId(@Path("db") String db, @Header("Authorization") String token, @Query("tagId") List<String> tagIds);
+    Call<List<IdMap>> getMapByTagId(@Path("db") String db, @Header("Authorization") String token, @Query(value = "tagid", encoded = true) String tagIds);
 
     @GET("/{db}/tags")
-    Call<List<Tag>> getTagsById(@Path("db") String db, @Header("Authorization") String token, @Query("dropbase_id") List<String> ids);
+    Call<List<Tag>> getTagsById(@Path("db") String db, @Header("Authorization") String token, @Query(value = "dropbase_id", encoded = true) String ids);
     @GET("/{db}/tags")
-    Call<List<Tag>> getTagsByUsername(@Path("db") String db, @Header("Authorization") String token, @Query("username") List<String> usernames);
+    Call<List<Tag>> getTagsByUsername(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) String usernames);
     @GET("/{db}/tags")
     Call<List<Tag>> getAllTags(@Path("db") String db, @Header("Authorization") String token);
 }

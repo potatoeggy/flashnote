@@ -19,22 +19,53 @@ public class ApiService {
     private final static String DROPBASE_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhYmFzZUlkIjoiYldUUkI3aVN3YXp6dWI0UDdIWm5RUyIsImFjY2Vzc1Blcm0iOiJmdWxsIiwidG9rZW5JZCI6IjlsQTJaaFBZOWhkWFl6WXFtWUxPdWp2RWhIUWU3QnJBcW5LRTE0YWd0dHJCTXV2ZEt0NkNzQXB5VmYxcmNMbGEiLCJpYXQiOjE2MTA3NzUzNDIsImV4cCI6MTYxMTcyNTc0MiwiaXNzIjoiZHJvcGJhc2UuaW8iLCJzdWIiOiJLemJEeGpGVWZ0eDJtOFV5Vld6SkJrIn0.YvlWqXNZq5NtwAMOzrijwhsi0z1Joc74BsKH_5_PW7g";
     
     public static Call<List<Card>> getCardsByIdMap(List<IdMap> idMaps)  { // hard
-        List<String> cardIds = new ArrayList<String>();
+        String cardIds = "in.(";
         for (IdMap map : idMaps) {
-            cardIds.add(map.getCardId());
+            cardIds += map.getCardId() + ",";
         }
+        cardIds = cardIds.substring(0,cardIds.length()-1) + ")";
+        
         Call<List<Card>> cardCall = restService.getCardsById(DROPBASE_DB, DROPBASE_AUTH, cardIds);
-        return cardCall;
     }
 
-    public static Call<List<IdMap>> getIdMapByTag(List<Tag> tags) throws Exception {
-        List<String> tagIds = new ArrayList<String>();
+    public static void getCardsByTag(List<Tag> tags) {
+        String tagIds = "in.(";
         for (Tag t : tags) {
-            if (t.getId() == null) throw new Exception("i'll fix later please never run into this");
-            tagIds.add(t.getId());
+            if (t.getId() == null) System.out.println("ERROR: NULL TAG ID");
+            tagIds += t.getId() + ",";
         }
+        tagIds = tagIds.substring(0, tagIds.length()-1) + ")";
         Call<List<IdMap>> idMapCall = restService.getMapByTagId(DROPBASE_DB, DROPBASE_AUTH, tagIds);
-        return idMapCall;
+        idMapCall.enqueue(new Callback<List<IdMap>>() {
+            @Override
+            public void onResponse(Call<List<IdMap>> call, Response<List<IdMap>> response) {
+                if (response.isSuccessful()) {
+                    Call<List<Card>> cards = getCardsByIdMap(response.body());
+                    cards.enqueue(new Callback<List<Card>>() {
+                        @Override
+                        public void onResponse(Call<List<Card>> call, Response<List<Card>> response) {
+                            if (response.isSuccessful()) {
+                                
+                            } else {
+                                System.out.println("ERROR: " + response.toString());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Card>> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } else {
+                    System.out.println("ERROR: " + response.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<IdMap>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
     
     public static Call<List<Card>> getCardsByUsername(String username) { // hard (because no tags) — alternatively, modify data structure to include a rudimentary bit to fast process locally
@@ -50,64 +81,20 @@ public class ApiService {
     }
     
     public static Call<List<Tag>> getTagsByUsername(String username) {
-        List<String> usernames = new ArrayList<String>();
-        usernames.add(username);
+        String usernames = "eq.(" + username + ")";
         return restService.getTagsByUsername(DROPBASE_DB, DROPBASE_AUTH, usernames);
     }
     
     public static Call<List<Tag>> getTagsByUsername(List<String> usernames) {
-        return restService.getTagsByUsername(DROPBASE_DB, DROPBASE_AUTH, usernames);
-    }
-    
-    public static Call<List<User>> getUsersByUsername(String username) {
-        List<String> usernames = new ArrayList<String>();
-        usernames.add(username);
-        return restService.getUsersByUsername(DROPBASE_DB, DROPBASE_AUTH, usernames);
+        String usernameStrings = "in.(";
+        for (String s : usernames) {
+            usernameStrings += s + ",";
+        }
+        usernameStrings = usernameStrings.substring(0, usernameStrings.length()-1) + ")";
+        return restService.getTagsByUsername(DROPBASE_DB, DROPBASE_AUTH, usernameStrings);
     }
 
     public static void main(String[] args) {
-        List<Tag> tags = new ArrayList<Tag>();
-        tags.add(new Tag("bleh", "bleh", "bleh"));
-        tags.get(0).setId("06ec495e-c36a-4a62-a41e-aeebe35d9bb2");
-
-        try {
-            Call<List<IdMap>> map = getIdMapByTag(tags);
-            map.enqueue(new Callback<List<IdMap>>() {
-                @Override
-                public void onResponse(Call<List<IdMap>> call, Response<List<IdMap>> response) {
-                    if (response.isSuccessful()) {
-                        Call<List<Card>> cards = getCardsByIdMap(response.body());
-                        cards.enqueue(new Callback<List<Card>>() {
-                            @Override
-                            public void onResponse(Call<List<Card>> call, Response<List<Card>> response) {
-                                if (response.isSuccessful()) {
-                                    for (Card c : response.body()) {
-                                        System.out.println(c.toString());
-                                    }
-                                } else {
-                                    System.out.println(response.body().get(0));
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<List<Card>> call, Throwable t) {
-                                t.printStackTrace();
-                            }
-                        });
-                    } else {
-                        System.out.println("ERROR 1: " + response.toString());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<List<IdMap>> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
-        } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.fillInStackTrace());
-        }
         // demo
         /*
         Call<List<Card>> asyncCall = restService.getAllCards(DROPBASE_DB, DROPBASE_AUTH);
