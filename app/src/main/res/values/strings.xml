@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Flashnote</string>
+    <string name="spellchecker_name">spellchecker_name</string>
 </resources>
