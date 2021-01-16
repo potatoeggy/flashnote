@@ -9,8 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiAdapter {
     private static Retrofit queryRetrofit;
     private static Retrofit pipelineRetrofit;
+    private static Retrofit emptyRetrofit;
     private static Gson gson = new GsonBuilder().create();
-    private final static String BASE_URL = "https://query.dropbase.io/";
     
     public static Retrofit getQueryRetrofit() {
         if (queryRetrofit == null) {
@@ -27,10 +27,20 @@ public class ApiAdapter {
         if (pipelineRetrofit == null) {
             pipelineRetrofit = new Retrofit
                     .Builder()
-                    .baseUrl("https://api2.dropbase.io/v1/pipeline/")
+                    .baseUrl("https://api2.dropbase.io/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return pipelineRetrofit;
+    }
+    
+    public static Retrofit getEmptyRetrofit() {
+        if (emptyRetrofit == null) {
+            emptyRetrofit = new Retrofit
+                    .Builder()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return emptyRetrofit;
     }
 }
