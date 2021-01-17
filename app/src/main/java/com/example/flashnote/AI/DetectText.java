@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DetectText {
-	static final String jsonPath = "Flashnote-3278311c8d16.json";
+	static final String jsonPath = "Flashnote-e9dcc3f03434.json";
 	
 	static public Context context;
 	

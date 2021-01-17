@@ -18,7 +18,7 @@ import java.util.Queue;
 
 public class NLP {
 	
-	static final String jsonPath = "Flashnote-3278311c8d16.json";
+	static final String jsonPath = "Flashnote-e9dcc3f03434.json";
 	
 	static public Context context;
 	
@@ -131,7 +131,6 @@ public class NLP {
 				if (root.getLemma().equals("be")) {
 					interrogative += "is ";
 					skip = root.getDependencyEdge().getHeadTokenIndex();
-					System.out.println(skip);
 				} else {
 					if (root.getPartOfSpeech().getTense().toString().equals("PRESENT")) {
 						interrogative += "does ";
