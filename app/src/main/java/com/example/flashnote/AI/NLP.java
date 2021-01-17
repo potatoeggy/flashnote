@@ -18,7 +18,7 @@ import java.util.Queue;
 
 public class NLP {
 	
-	static final String jsonPath = "Flashnote-e9dcc3f03434.json";
+	static final String jsonPath = "Flashnote2-59fe426dbf58.json";
 	
 	static public Context context;
 	
