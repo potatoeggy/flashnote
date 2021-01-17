@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class DataStateHelper {
+    // i give up on being dumb and having two classes
+    private static String correctedString;
     private static Thread helperTimeout;
 
     private static void startHelperTimeout() {
@@ -53,6 +55,10 @@ public class DataStateHelper {
         DataState.setApiLock(false);
         DataState.setReady(true);
     }
+    
+    public static void setCorrectedString(String string) {
+        correctedString = string;
+    }
 
     public static void setTagList(List<Tag> tags) {
         DataState.setTagList(tags);
@@ -75,6 +81,13 @@ public class DataStateHelper {
         DataState.setUploadStatus(status);
     }
      */
+    
+    public static String getCorrectedString() {
+        startClientTimeout();
+        String temp = correctedString;
+        correctedString = null;
+        return temp;
+    }
 
     public static List<Tag> getClientTagList() {
         startClientTimeout();

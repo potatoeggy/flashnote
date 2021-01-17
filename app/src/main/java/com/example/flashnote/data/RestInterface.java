@@ -41,4 +41,8 @@ public interface RestInterface {
     Call<List<Tag>> getTagByNameAndUsername(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) String usernames, @Query(value = "name", encoded = true) String tags);
     @GET("/{db}/tags")
     Call<List<Tag>> getAllTags(@Path("db") String db, @Header("Authorization") String token);
+    
+    @Headers({"Content-Type: application/x-www-form-url-encoded"})
+    @POST("/v7.0/spellcheck")
+    Call<SpellResult> getSpellcheck(@Header("Ocp-Apim-Subscription-Key") String key, @Query("mkt") String mkt, @Query("mode") String mode, @Query("text") String text);
 }
