@@ -32,6 +32,8 @@ public class ApiService {
     private final static String DROPBASE_TAG_PIPELINE = "Tdzxn5nMYKXGUWrzwEfmRX";
     private final static String DROPBASE_USER_PIPELINE = "nuTRpPGJsybXYvwcdvE9fs";
     
+    private final static String BING_TRANSLATE_KEY = "73506c522ea9455c910eb0511a82da17";
+    
     private static Call<List<Card>> getCardsByIdMap(List<IdMap> idMaps)  { // hard
         String cardIds = "in.(";
         for (IdMap map : idMaps) {
@@ -50,6 +52,36 @@ public class ApiService {
         }
         tagIds = tagIds.substring(0, tagIds.length()-1) + ")";
         return restService.getTagsById(DROPBASE_DB, DROPBASE_AUTH, tagIds);
+    }
+    
+    public static void spellCheck(final String text) {
+        new Thread() {
+            public void run() {
+                DataStateHelper.getHelperLock();
+                String mkt = "global", mode = "proof";
+                Call<SpellResult> spellCall = restService.getSpellcheck(BING_TRANSLATE_KEY, mkt, mode, text);
+                try {
+                    Response<SpellResult> spellResponse = spellCall.execute();
+                    if (spellResponse.isSuccessful()) {
+                        SpellResult result = spellResponse.body();
+                        String corrected = "";
+                        for (FlaggedToken f : result.getFlaggedTokens()) {
+                            if (f.getSuggestions().size() > 0) corrected += f.getSuggestions().get(0);
+                            else corrected += f.getToken();
+                            corrected += " ";
+
+                        }
+                    } else {
+                        System.out.println(spellResponse.toString());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+                DataStateHelper.dropHelperLock();
+            }
+        }.start();
     }
 
     public static void getCardsByTag(final List<Tag> tags) { // TODO — critical: call getTagsByCard for each one
