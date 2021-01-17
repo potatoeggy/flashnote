@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -27,9 +28,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     void makeDummy(){
         ArrayList<Tag> tags = new ArrayList<>();
-        tags.add(new Tag("test","laksh", "#FFC0CB"));
+        tags.add(new Tag("test","james","#FFC0CB"));
         Date creation = new Date();
-        dummy = new Card("james", "termemaiterm", "definteteelyreetlyely a def", tags);
+        dummy = new Card("james","termemaiterm","definterieriition",tags);
     }
 
     @SuppressLint("ResourceType")

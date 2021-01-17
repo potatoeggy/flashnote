@@ -12,4 +12,5 @@ public class State {
     static boolean justRegistered;
     static boolean justLoggedIn;
     static boolean justLoggedOut;
+    static ArrayList<Card> newCards;
 }

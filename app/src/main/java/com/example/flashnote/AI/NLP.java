@@ -1,15 +1,15 @@
 package com.example.flashnote.AI;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
-
+import com.example.flashnote.data.Card;
 import com.google.api.client.util.Lists;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.language.v1.*;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,13 +20,21 @@ public class NLP {
 	
 	static final String jsonPath = "Flashnote-3278311c8d16.json";
 	
+	static private Context context;
+	
+	public NLP(Context context) {
+		NLP.context = context;
+	}
+	
 	protected static ArrayList<String> parseSentences (ArrayList<String> text) {
 		ArrayList<String> parsed = new ArrayList<>();
 		String continued = "";
 		for (int i = 0; i < text.size(); i++) {
 			String line = text.get(i);
-			while (line.contains(".")) {
-				parsed.add(continued + line.substring(0, line.indexOf('.') + 1));
+			while (line.contains(".") || line.contains(";")) {
+				parsed.add((continued + line.substring(0, line.indexOf('.') + 1))
+						           .replace("=", "is")
+						           .replace("->", "is"));
 				continued = "";
 				line = line.substring(line.indexOf('.')+1);
 			}
@@ -34,14 +42,17 @@ public class NLP {
 		}
 		return parsed;
 	}
+	
 	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-	protected static void analyzeText (String text) throws IOException {
-		GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
+	protected static Card analyzeText (String text) throws IOException {
+		AssetManager assetManager = context.getAssets();
+		GoogleCredentials credentials = GoogleCredentials.fromStream(assetManager.open(jsonPath))
 				.createScoped(Lists.newArrayList(Collections.singleton("https://www.googleapis.com/auth/cloud-platform")));
 		LanguageServiceSettings languageServiceSettings =
 				LanguageServiceSettings.newBuilder()
 						.setCredentialsProvider(FixedCredentialsProvider.create(credentials))
 						.build();
+		
 		try (LanguageServiceClient language = LanguageServiceClient.create(languageServiceSettings)) {
 			//change text to text that needs to be analyzed
 			Document doc = Document.newBuilder().setContent(text).setType(Document.Type.PLAIN_TEXT).build();
@@ -90,8 +101,8 @@ public class NLP {
 				}
 			}
 			
-			assert largestT != null;
-			Document document2 = Document.newBuilder().setContent(largestT.getText().getContent()).setType(Document.Type.PLAIN_TEXT).build();
+			if (largestT == null) return null;
+ 			Document document2 = Document.newBuilder().setContent(largestT.getText().getContent()).setType(Document.Type.PLAIN_TEXT).build();
 			AnalyzeEntitiesRequest requestEntity =
 					AnalyzeEntitiesRequest.newBuilder()
 							.setDocument(document2)
@@ -154,9 +165,7 @@ public class NLP {
 				answer.append(response.getTokensList().get(i).getText().getContent()).append(" ");
 			}
 			
-			//TODO: Return a card class with question + answer
-			System.out.println(question);
-			System.out.println(answer);
+			return new Card(question.toString(),answer.toString());
 		}
 	}
 	private static int distanceToRoot(Token token,

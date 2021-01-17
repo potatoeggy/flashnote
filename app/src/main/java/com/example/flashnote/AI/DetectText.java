@@ -1,17 +1,17 @@
 package com.example.flashnote.AI;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
-
 import com.google.api.client.util.Lists;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.vision.v1.*;
 import com.google.protobuf.ByteString;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,18 +19,18 @@ import java.util.List;
 public class DetectText {
 	static final String jsonPath = "Flashnote-3278311c8d16.json";
 	
-	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-	protected static ArrayList<String> detectText() throws IOException {
-		String filePath = "OCR_TEST2.jpg";
-		return detectText(filePath);
+	static private Context context;
+	
+	public DetectText(Context context) {
+		DetectText.context = context;
 	}
 	
 	// Detects text in the specified image.
 	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-	protected static ArrayList<String> detectText(String filePath) throws IOException {
+	protected static ArrayList<String> detectText(InputStream filePath) throws IOException {
 		List<AnnotateImageRequest> requests = new ArrayList<>();
-		
-		ByteString imgBytes = ByteString.readFrom(new FileInputStream(filePath));
+		AssetManager assetManager = context.getAssets();
+		ByteString imgBytes = ByteString.readFrom(filePath);
 		
 		Image img = Image.newBuilder().setContent(imgBytes).build();
 		Feature feat = Feature.newBuilder().setType(Feature.Type.TEXT_DETECTION).build();
@@ -38,7 +38,7 @@ public class DetectText {
 				AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
 		requests.add(request);
 
-		GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
+		GoogleCredentials credentials = GoogleCredentials.fromStream(assetManager.open(jsonPath))
 				.createScoped(Lists.newArrayList(Collections.singleton("https://www.googleapis.com/auth/cloud-platform")));
 		
 		

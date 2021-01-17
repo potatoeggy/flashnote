@@ -6,17 +6,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.flashnote.data.DataState;
-import com.example.flashnote.data.DataStateHelper;
 import com.google.android.material.snackbar.Snackbar;
+import java.io.File;
 
 public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        File f = new File("yo.txt");
+        System.out.println(f.getAbsoluteFile());
         if(State.justRegistered){
             State.justRegistered = false;
             Snackbar.make(findViewById(R.id.username), "Account registered successfully!", Snackbar.LENGTH_LONG).show();
