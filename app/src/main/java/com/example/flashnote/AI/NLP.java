@@ -1,5 +1,8 @@
 package com.example.flashnote.AI;
 
+import android.os.Build;
+import androidx.annotation.RequiresApi;
+import com.example.flashnote.data.Card;
 import com.google.api.client.util.Lists;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -8,6 +11,7 @@ import com.google.cloud.language.v1.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -29,9 +33,11 @@ public class NLP {
 		}
 		return parsed;
 	}
-	protected static void analyzeText (String text) throws IOException {
+	
+	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
+	protected static Card analyzeText (String text) throws IOException {
 		GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
-				                                .createScoped(Lists.newArrayList());
+				                                .createScoped(Lists.newArrayList(Collections.singleton("https://www.googleapis.com/auth/cloud-platform")));
 		LanguageServiceSettings languageServiceSettings =
 				LanguageServiceSettings.newBuilder()
 						.setCredentialsProvider(FixedCredentialsProvider.create(credentials))
@@ -148,9 +154,7 @@ public class NLP {
 				answer.append(response.getTokensList().get(i).getText().getContent()).append(" ");
 			}
 			
-			//TODO: Return a card class with question + answer
-			System.out.println(question);
-			System.out.println(answer);
+			return new Card(question.toString(),answer.toString());
 		}
 	}
 	private static int distanceToRoot(Token token,

@@ -20,6 +20,11 @@ public class Card extends DropbaseData {
     private String tags; // TODO: set tags to List<Tag> when db is ready
     private List<Tag> tagList;
     
+    public Card(String question, String answer) {
+        this.question = question;
+        this.answer = answer;
+    }
+    
     public Card(String username, String question, String answer, List<Tag> tagList) {
         this.username = username;
         this.question = question;
