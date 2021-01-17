@@ -3,19 +3,28 @@ package com.example.flashnote;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+
+import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.example.flashnote.data.Card;
+import com.example.flashnote.data.Tag;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -29,9 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     void makeDummy(){
         ArrayList<Tag> tags = new ArrayList<>();
-        tags.add(new Tag("#FFC0CB","test"));
-        Date creation = new Date();
-        dummy = new Card(tags, "termmyTerm", "definteely a def",creation,"urmom");
+        tags.add(new Tag("test","user", "#FFC0CB"));
+        dummy = new Card("user","termyes","answerno",tags);
     }
 
     @SuppressLint("ResourceType")
@@ -42,20 +50,20 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Tag> tags = new ArrayList<>();
         for(Card card:cards){
-            for(Tag tag:card.categories){
+            for(Tag tag:card.getTagList()){
                 if(!tags.contains(tag)) tags.add(tag);
             }
         }
 
-        System.out.println("REEEEEEEEEEEEEEEEEEEEEEEEEE"+tags.get(0).name+"REEEEEEEEEEEEEEEEEEEEEEEE");
+        System.out.println("REEEEEEEEEEEEEEEEEEEEEEEEEE"+tags.get(0).getName()+"REEEEEEEEEEEEEEEEEEEEEEEE");
 
         LinearLayout playLayout = findViewById(R.id.playLayout);
-        for(final Tag tag:tags){
+        for(Tag tag:tags){
             CardView card = new CardView(this);
             LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(700, 200);
             cardParams.gravity = Gravity.CENTER;
             card.setLayoutParams(cardParams);
-            card.setCardBackgroundColor(Color.parseColor(tag.color));
+            card.setCardBackgroundColor(Color.parseColor(tag.getColour()));
             card.setRadius(30);
             playLayout.addView(card);
 
@@ -68,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             card.addView(subLayout);
 
             TextView nameView = new TextView(this);
-            nameView.setText(tag.name);
+            nameView.setText(tag.getName());
             nameView.setTextSize(22);
             nameView.setLayoutParams(new ConstraintLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             nameView.setId(456);
@@ -110,8 +118,8 @@ public class MainActivity extends AppCompatActivity {
                     State.playing = new ArrayList<>();
                     State.playingIndex = 0;
                  o: for(Card card:cards){
-                        for(Tag curTag:card.categories){
-                            if(curTag.name.equals(tag.name)){
+                        for(Tag curTag:card.getTagList()){
+                            if(curTag.getName().equals(tag.getName())){
                                 State.playing.add(card);
                                 continue o;
                             }
@@ -123,12 +131,12 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Dashboard");
