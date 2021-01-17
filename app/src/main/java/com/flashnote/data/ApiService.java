@@ -28,6 +28,15 @@ public class ApiService {
         Call<List<Card>> cardCall = restService.getCardsById(DROPBASE_DB, DROPBASE_AUTH, cardIds);
         return cardCall;
     }
+    
+    private static Call<List<Tag>> getTagsByIdMap(List<IdMap> idMaps) {
+        String tagIds = "in.(";
+        for (IdMap map : idMaps) {
+            tagIds += map.getTagId() + ",";
+        }
+        tagIds = tagIds.substring(0, tagIds.length()-1) + ")";
+        return restService.getTagsById(DROPBASE_DB, DROPBASE_AUTH, tagIds);
+    }
 
     public static void getCardsByTag(final List<Tag> tags) { // TODO — critical: call getTagsByCard for each one
         new Thread() {
@@ -81,12 +90,31 @@ public class ApiService {
             }
         }.start();
     }
-    
-    public static void getTagsByCard(Card card) { // hard
+
+    public static void getTagsByCard(final Card card) { // hard
         new Thread() {
             public void run() {
                 DataStateHelper.getHelperLock();
-                
+                if (card.getId() == null) System.out.println("ERROR: NULL CARD ID");
+                List<String> cardIds = new ArrayList<String>();
+                cardIds.add(card.getId());
+                Call<List<IdMap>> idMapCall = restService.getMapByCardId(DROPBASE_DB, DROPBASE_AUTH, cardIds);
+                try {
+                    Response<List<IdMap>> mapResponse = idMapCall.execute();
+                    if (mapResponse.isSuccessful()) {
+                        Response<List<Tag>> tagResponse = getTagsByIdMap(mapResponse.body()).execute();
+                        if (tagResponse.isSuccessful()) {
+                            DataStateHelper.setTagList(tagResponse.body());
+                        } else {
+                            System.out.println("ERROR: " + tagResponse.toString());
+                        }
+                    } else {
+                        System.out.println("ERROR: " + mapResponse.toString());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                DataStateHelper.dropHelperLock();
             }
         }.start();
     }
@@ -94,6 +122,7 @@ public class ApiService {
     public static void getTagsByUsername(final String username) {
         new Thread() {
             public void run() {
+                DataStateHelper.getHelperLock();
                 String usernames = "eq." + username;
                 Call<List<Tag>> tagCall = restService.getTagsByUsername(DROPBASE_DB, DROPBASE_AUTH, usernames);
                 try {
@@ -106,26 +135,43 @@ public class ApiService {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                DataStateHelper.dropHelperLock();
             }
         }.start();
     }
-    
-    public static Call<List<Tag>> getTagsByUsername(List<String> usernames) {
-        String usernameStrings = "in.(";
-        for (String s : usernames) {
-            usernameStrings += s + ",";
-        }
-        usernameStrings = usernameStrings.substring(0, usernameStrings.length()-1) + ")";
-        return restService.getTagsByUsername(DROPBASE_DB, DROPBASE_AUTH, usernameStrings);
-    }
 
+    public static void getUserByUsername(final String username) {
+        new Thread() {
+            public void run() {
+                DataStateHelper.getHelperLock();
+                String usernames = "eq." + username;
+                Call<List<User>> userCall = restService.getUser(DROPBASE_DB, DROPBASE_AUTH, usernames);
+                try {
+                    Response<List<User>> userResponse = userCall.execute();
+                    if (userResponse.isSuccessful()) {
+                        DataStateHelper.setUser(userResponse.body().get(0));
+                    } else {
+                        System.out.println("ERROR: " + userResponse.toString());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e) {
+                    System.out.println("Null pointer as user, probably none found");
+                }
+                DataStateHelper.dropHelperLock();
+            }
+        }.start();
+    }
+/*
     public static void main(String[] args) {
         List<Tag> list = new ArrayList<Tag>();
         list.add(new Tag("chemistry", "potatoeggy", "#FFFFFF"));
         list.get(0).setId("06ec495e-c36a-4a62-a41e-aeebe35d9bb2");
         getTagsByUsername("potatoeggy");
-        for (Tag c : DataStateHelper.getClientTagList()) {
-            System.out.println(c.toString());
-        }
+        List<Tag> tags = DataStateHelper.getClientTagList();
+        System.out.println(tags.size());
+        for (Tag t : tags) System.out.println(t.toString());
     }
+
+ */
 }

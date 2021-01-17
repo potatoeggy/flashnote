@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -39,4 +40,7 @@ public interface RestInterface {
     Call<List<Tag>> getTagByNameAndUsername(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) String usernames, @Query(value = "name", encoded = true) String tags);
     @GET("/{db}/tags")
     Call<List<Tag>> getAllTags(@Path("db") String db, @Header("Authorization") String token);
+    
+    @GET("/{db}/users")
+    Call<List<User>> getUser(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) String username);
 }

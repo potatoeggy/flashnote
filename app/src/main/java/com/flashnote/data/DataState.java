@@ -8,6 +8,7 @@ public class DataState {
     private static boolean ready = false;
     private static List<Tag> tagList;
     private static List<Card> cardList;
+    private static User user;
     
     public static void setLocalUsername(String username) {
         localUsername = username;
@@ -33,6 +34,10 @@ public class DataState {
         return cardList;
     }
     
+    public static User getUser() {
+        return user;
+    }
+    
     public static void setApiLock(boolean bool) {
         apiLock = bool;
     }
@@ -47,5 +52,9 @@ public class DataState {
     
     public static void setCardList(List<Card> cards) {
         cardList = cards;
+    }
+    
+    public static void setUser(User username) {
+        user = username;
     }
 }

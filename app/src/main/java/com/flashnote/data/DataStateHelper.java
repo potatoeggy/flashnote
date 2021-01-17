@@ -47,6 +47,10 @@ public class DataStateHelper {
     public static void setCardList(List<Card> cards) {
         DataState.setCardList(cards);
     }
+    
+    public static void setUser(User user) {
+        DataState.setUser(user);
+    }
 
     public static List<Tag> getClientTagList() {
         clientTimeout.start();
@@ -65,6 +69,16 @@ public class DataStateHelper {
         DataState.setReady(false);
         List<Card> temp = DataState.getCardList();
         DataState.setCardList(null);
+        return temp;
+    }
+    
+    public static User getClientUser() {
+        clientTimeout.start();
+        while (!DataState.getReady());
+        clientTimeout.interrupt();
+        DataState.setReady(false);
+        User temp = DataState.getUser();
+        DataState.setUser(null);
         return temp;
     }
 }
