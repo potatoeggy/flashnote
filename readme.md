@@ -1,1 +1,2 @@
-#This a rly big rly rly far folder
+# Flashnote
+**Automatically change a page of text into easy-to-study flashcards.**
