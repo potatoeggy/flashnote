@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 public class BrowseActivity extends AppCompatActivity {
 
-    ArrayList<String> users = new ArrayList<>();
+    final ArrayList<String> users = new ArrayList<>();
     public void loadUsers(){
         users.add("rubber duck"); //would be data base stuffs
         users.add("another rubber duck"); //would be data base stuffs
         LinearLayout userLayout = findViewById(R.id.userLayout);
-        for(String user:users){
+        for(final String user:users){
             Button curUser = new Button(this);
             curUser.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200));
             userLayout.addView(curUser);

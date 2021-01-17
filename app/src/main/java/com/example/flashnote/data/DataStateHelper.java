@@ -1,36 +1,51 @@
 package com.example.flashnote.data;
 
+import android.provider.ContactsContract;
+
+import java.io.IOException;
 import java.util.List;
 
 public class DataStateHelper {
-    private static final Thread helperTimeout = new Thread() { // timeout just in case programmer error
-        public void run() {
-            try {
-                Thread.sleep(5000);
-                DataState.setApiLock(false); // this could very much backfire if it interrupts *another* thread
-                DataState.setReady(false);
-            } catch (InterruptedException e) {
-                return;
+    private static Thread helperTimeout;
+
+    private static void startHelperTimeout() {
+        helperTimeout = new Thread() { // timeout just in case programmer error
+            public void run() {
+                try {
+                    Thread.sleep(10000);
+                    DataState.setApiLock(false); // this could very much backfire if it interrupts *another* thread
+                    DataState.setReady(false);
+                } catch (InterruptedException e) {
+                    return;
+                }
+                System.out.println("ERROR: Timeout for API lock reached - resetting lock.");
             }
-            System.out.println("ERROR: Timeout for API lock reached - resetting lock.");
-        }
-    };
+        };
+        helperTimeout.start();
+    }
     
-    private static final Thread clientTimeout = new Thread() {
-        public void run() {
-            try {
-                Thread.sleep(5000);
-                DataState.setReady(false);
-            } catch (InterruptedException e) {
-                return;
+    private static void startClientTimeout() {
+        Thread clientTimeout = new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(10000);
+                    DataState.setReady(false);
+                } catch (InterruptedException e) {
+                    return;
+                }
+                System.out.println("Timeout for user lock reached - resetting lock");
             }
-        }
-    };
+        };
+        clientTimeout.start();
+        while (!DataState.getReady());
+        clientTimeout.interrupt();
+        DataState.setReady(false);
+    }
     
     public static void getHelperLock() {
         while (DataState.getApiLock() || DataState.getReady()); // only when both are false can you get lock
         DataState.setApiLock(true);
-        helperTimeout.start();
+        startHelperTimeout();
     }
 
     public static void dropHelperLock() {
@@ -46,38 +61,54 @@ public class DataStateHelper {
     public static void setCardList(List<Card> cards) {
         DataState.setCardList(cards);
     }
-    
-    public static void setUser(User user) {
-        DataState.setUser(user);
+
+    public static void setUserList(List<User> users) {
+        DataState.setUserList(users);
     }
+    
+    public static void setUploadJob(DropbaseUploadJob job) {
+        DataState.setUploadJob(job);
+    };
+
+    /*
+    public static void setUploadStatus(DropbaseUploadStatus status) {
+        DataState.setUploadStatus(status);
+    }
+     */
 
     public static List<Tag> getClientTagList() {
-        clientTimeout.start();
-        while (!DataState.getReady());
-        clientTimeout.interrupt();
-        DataState.setReady(false);
+        startClientTimeout();
         List<Tag> temp = DataState.getTagList();
         DataState.setTagList(null);
         return temp;
     }
 
     public static List<Card> getClientCardList() {
-        clientTimeout.start();
-        while (!DataState.getReady());
-        clientTimeout.interrupt();
-        DataState.setReady(false);
+        startClientTimeout();
         List<Card> temp = DataState.getCardList();
         DataState.setCardList(null);
         return temp;
     }
-    
-    public static User getClientUser() {
-        clientTimeout.start();
-        while (!DataState.getReady());
-        clientTimeout.interrupt();
-        DataState.setReady(false);
-        User temp = DataState.getUser();
-        DataState.setUser(null);
+
+    public static List<User> getClientUserList() {
+        startClientTimeout();
+        List<User> temp = DataState.getUserList();
+        DataState.setUserList(null);
         return temp;
     }
+    
+    public static DropbaseUploadJob getClientUploadJob() {
+        startClientTimeout();
+        DropbaseUploadJob temp = DataState.getUploadJob();
+        DataState.setUploadJob(null);
+        return temp;
+    }
+    /*
+    public static DropbaseUploadStatus getClientUploadStatus() {
+        startClientTimeout();
+        DropbaseUploadStatus temp = DataState.getUploadStatus();
+        DataState.setUploadStatus(null);
+        return temp;
+    }
+     */
 }

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class DropbaseUploadStatus {
     @SerializedName("job_id")
     @Expose
-    private final String job_id;
+    private String job_id;
     @SerializedName("str")
     @Expose
     private String str;

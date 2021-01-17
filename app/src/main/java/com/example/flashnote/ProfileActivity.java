@@ -103,7 +103,7 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     State.playing = new ArrayList<>();
                     State.playingIndex = 0;
-                    o: for(Card card:userCards){
+                    o: for(final Card card:userCards){
                         for(Tag curTag:card.categories){
                             if(curTag.name.equals(tag.name)){
                                 State.playing.add(card);

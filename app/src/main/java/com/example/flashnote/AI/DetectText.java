@@ -1,5 +1,9 @@
 package com.example.flashnote.AI;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.google.api.client.util.Lists;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -20,6 +24,7 @@ public class DetectText {
 	}
 	
 	// Detects text in the specified image.
+	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 	protected static ArrayList<String> detectText(String filePath) throws IOException {
 		List<AnnotateImageRequest> requests = new ArrayList<>();
 		
