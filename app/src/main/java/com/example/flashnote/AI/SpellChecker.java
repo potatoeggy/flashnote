@@ -10,15 +10,15 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public class SpellChecker {
-	static String host = "https://api.bing.microsoft.com/v7.0/";
-	static String path = "spellcheck";
+	protected static String host = "https://api.bing.microsoft.com/v7.0/";
+	protected static String path = "spellcheck";
 	
-	static String key = "73506c522ea9455c910eb0511a82da17";
+	protected static String key = "73506c522ea9455c910eb0511a82da17";
 	
-	static String mkt = "global";
-	static String mode = "proof";
+	protected static String mkt = "global";
+	protected static String mode = "proof";
 	
-	public static String check(String text) throws Exception {
+	protected static String check(String text) throws Exception {
 		String params = "?mkt=" + mkt + "&mode=" + mode;
 		URL url = new URL(host + path + params);
 		HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();

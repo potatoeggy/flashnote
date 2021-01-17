@@ -14,13 +14,13 @@ import java.util.List;
 public class DetectText {
 	static final String jsonPath = "Flashnote-3278311c8d16.json";
 	
-	public static ArrayList<String> detectText() throws IOException {
+	protected static ArrayList<String> detectText() throws IOException {
 		String filePath = "OCR_TEST2.jpg";
 		return detectText(filePath);
 	}
 	
 	// Detects text in the specified image.
-	public static ArrayList<String> detectText(String filePath) throws IOException {
+	protected static ArrayList<String> detectText(String filePath) throws IOException {
 		List<AnnotateImageRequest> requests = new ArrayList<>();
 		
 		ByteString imgBytes = ByteString.readFrom(new FileInputStream(filePath));

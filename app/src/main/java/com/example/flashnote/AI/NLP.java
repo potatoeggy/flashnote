@@ -15,7 +15,7 @@ public class NLP {
 	
 	static final String jsonPath = "Flashnote-3278311c8d16.json";
 	
-	public static ArrayList<String> parseSentences (ArrayList<String> text) {
+	protected static ArrayList<String> parseSentences (ArrayList<String> text) {
 		ArrayList<String> parsed = new ArrayList<>();
 		String continued = "";
 		for (int i = 0; i < text.size(); i++) {
@@ -29,7 +29,7 @@ public class NLP {
 		}
 		return parsed;
 	}
-	public static void analyzeText (String text) throws IOException {
+	protected static void analyzeText (String text) throws IOException {
 		GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
 				                                .createScoped(Lists.newArrayList());
 		LanguageServiceSettings languageServiceSettings =
