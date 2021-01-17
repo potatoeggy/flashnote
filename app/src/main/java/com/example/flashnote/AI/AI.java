@@ -5,17 +5,19 @@ import androidx.annotation.RequiresApi;
 import com.example.flashnote.data.Card;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AI {
 	/**
 	 *
-	 * @param imagePath relative path to JPEG image file
-	 * @return Arraylist of cards
+	 * @param imagePath input stream of JPEG image file
+	 * @return Arraylist of Cards
 	 * @throws IOException if image file not found
+	 * @see Card
 	 */
 	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-	public static ArrayList<Card> parseImageToCard (String imagePath) throws IOException {
+	public static ArrayList<Card> parseImageToCard (InputStream imagePath) throws IOException {
 		ArrayList<String> sentences = NLP.parseSentences(DetectText.detectText(imagePath));
 		ArrayList<Card> cards = new ArrayList<>();
 		for (String sentence : sentences) {

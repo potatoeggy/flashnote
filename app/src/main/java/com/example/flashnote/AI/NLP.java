@@ -1,5 +1,7 @@
 package com.example.flashnote.AI;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import com.example.flashnote.data.Card;
@@ -8,7 +10,6 @@ import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.language.v1.*;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +19,12 @@ import java.util.Queue;
 public class NLP {
 	
 	static final String jsonPath = "Flashnote-3278311c8d16.json";
+	
+	static private Context context;
+	
+	public NLP(Context context) {
+		NLP.context = context;
+	}
 	
 	protected static ArrayList<String> parseSentences (ArrayList<String> text) {
 		ArrayList<String> parsed = new ArrayList<>();
@@ -38,12 +45,14 @@ public class NLP {
 	
 	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 	protected static Card analyzeText (String text) throws IOException {
-		GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
+		AssetManager assetManager = context.getAssets();
+		GoogleCredentials credentials = GoogleCredentials.fromStream(assetManager.open(jsonPath))
 				                                .createScoped(Lists.newArrayList(Collections.singleton("https://www.googleapis.com/auth/cloud-platform")));
 		LanguageServiceSettings languageServiceSettings =
 				LanguageServiceSettings.newBuilder()
 						.setCredentialsProvider(FixedCredentialsProvider.create(credentials))
 						.build();
+		
 		try (LanguageServiceClient language = LanguageServiceClient.create(languageServiceSettings)) {
 			//change text to text that needs to be analyzed
 			Document doc = Document.newBuilder().setContent(text).setType(Document.Type.PLAIN_TEXT).build();
