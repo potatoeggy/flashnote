@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -14,8 +16,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final TextView username = findViewById(R.id.usernameReg);
-        final TextView password = findViewById(R.id.passwordReg);
+        TextView username = findViewById(R.id.usernameReg);
+        TextView password = findViewById(R.id.passwordReg);
         Button auth = findViewById(R.id.registerButtonReg);
         auth.setOnClickListener(new View.OnClickListener(){
             @Override
