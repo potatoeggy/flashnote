@@ -1,8 +1,7 @@
-package com.flashnote.data;
+package com.example.flashnote.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 // manages the two retrofits
@@ -10,7 +9,7 @@ public class ApiAdapter {
     private static Retrofit queryRetrofit;
     private static Retrofit pipelineRetrofit;
     private static Retrofit emptyRetrofit;
-    private static Gson gson = new GsonBuilder().create();
+    private static final Gson gson = new GsonBuilder().create();
     
     public static Retrofit getQueryRetrofit() {
         if (queryRetrofit == null) {

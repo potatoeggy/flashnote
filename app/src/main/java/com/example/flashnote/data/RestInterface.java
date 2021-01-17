@@ -1,15 +1,12 @@
-package com.flashnote.data;
-
-import java.util.List;
+package com.example.flashnote.data;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
+import java.util.List;
 // interface for service to utilise
 public interface RestInterface {
     // I'm sure there's a way to shorten this but I'm not sure how

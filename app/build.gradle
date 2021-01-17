@@ -59,8 +59,4 @@ dependencies {
     implementation 'com.google.cloud:google-cloud-language'
     implementation 'com.google.code.gson:gson:2.8.6'
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }

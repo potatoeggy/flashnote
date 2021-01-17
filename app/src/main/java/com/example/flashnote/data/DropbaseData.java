@@ -1,10 +1,7 @@
-package com.flashnote.data;
+package com.example.flashnote.data;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.sql.Date;
-import java.sql.Timestamp;
 
 public abstract class DropbaseData {
     @SerializedName("dropbase_id")

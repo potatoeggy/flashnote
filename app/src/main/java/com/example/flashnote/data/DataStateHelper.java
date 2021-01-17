@@ -1,10 +1,9 @@
-package com.flashnote.data;
+package com.example.flashnote.data;
 
-import java.io.IOException;
 import java.util.List;
 
 public class DataStateHelper {
-    private static Thread helperTimeout = new Thread() { // timeout just in case programmer error
+    private static final Thread helperTimeout = new Thread() { // timeout just in case programmer error
         public void run() {
             try {
                 Thread.sleep(5000);
@@ -17,7 +16,7 @@ public class DataStateHelper {
         }
     };
     
-    private static Thread clientTimeout = new Thread() {
+    private static final Thread clientTimeout = new Thread() {
         public void run() {
             try {
                 Thread.sleep(5000);

@@ -1,4 +1,4 @@
-package com.flashnote.data;
+package com.example.flashnote.data;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class DropbaseUploadStatus {
     @SerializedName("job_id")
     @Expose
-    private String job_id;
+    private final String job_id;
     @SerializedName("str")
     @Expose
     private String str;

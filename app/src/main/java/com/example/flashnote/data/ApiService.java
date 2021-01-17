@@ -1,18 +1,17 @@
-package com.flashnote.data;
+package com.example.flashnote.data;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 // what everything calls
 public class ApiService {
-    private static RestInterface restService = ApiAdapter.getQueryRetrofit().create(RestInterface.class);
-    private static PipelineInterface pipelineService = ApiAdapter.getPipelineRetrofit().create(PipelineInterface.class);
-    private static DropbaseAmazonInterface uploadService = ApiAdapter.getEmptyRetrofit().create(DropbaseAmazonInterface.class);
+    private static final RestInterface restService = ApiAdapter.getQueryRetrofit().create(RestInterface.class);
+    private static final PipelineInterface pipelineService = ApiAdapter.getPipelineRetrofit().create(PipelineInterface.class);
+    private static final DropbaseAmazonInterface uploadService = ApiAdapter.getEmptyRetrofit().create(DropbaseAmazonInterface.class);
     // TODO: remove api keys there should not be api keys
     private final static String DROPBASE_DB = "bWTRB7iSwazzub4P7HZnQS";
     private final static String DROPBASE_PIPELINE = "v1/pipeline/";

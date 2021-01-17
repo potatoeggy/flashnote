@@ -1,4 +1,4 @@
-package com.flashnote.data;
+package com.example.flashnote.data;
 
 import java.util.List;
 
