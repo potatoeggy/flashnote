@@ -24,8 +24,8 @@ public class LoginActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.username), "Logged Out successfully!", Snackbar.LENGTH_LONG).show();
         }
 
-        TextView username = findViewById(R.id.username);
-        TextView password = findViewById(R.id.password);
+        final TextView username = findViewById(R.id.username);
+        final TextView password = findViewById(R.id.password);
         Button auth = findViewById(R.id.loginButton);
         auth.setOnClickListener(new View.OnClickListener(){
             @Override

@@ -44,7 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
         System.out.println("REEEEEEEEEEEEEE 33333 EEEEEEEEEEEE"+tags.get(0).name+"REEEEEEEEEEEEEEEEEEEEEEEE");
 
         LinearLayout playLayout = findViewById(R.id.cardLayout);
-        for(Tag tag:tags){
+        for(final Tag tag:tags){
             CardView card = new CardView(this);
             LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(700, 200);
             cardParams.gravity = Gravity.CENTER;

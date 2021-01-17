@@ -17,7 +17,7 @@ public class BrowseActivity extends AppCompatActivity {
         users.add("rubber duck"); //would be data base stuffs
         users.add("another rubber duck"); //would be data base stuffs
         LinearLayout userLayout = findViewById(R.id.userLayout);
-        for(String user:users){
+        for(final String user:users){
             Button curUser = new Button(this);
             curUser.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200));
             userLayout.addView(curUser);

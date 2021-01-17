@@ -14,8 +14,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        TextView username = findViewById(R.id.usernameReg);
-        TextView password = findViewById(R.id.passwordReg);
+        final TextView username = findViewById(R.id.usernameReg);
+        final TextView password = findViewById(R.id.passwordReg);
         Button auth = findViewById(R.id.registerButtonReg);
         auth.setOnClickListener(new View.OnClickListener(){
             @Override
