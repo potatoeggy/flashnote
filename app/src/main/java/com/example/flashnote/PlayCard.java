@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.flashnote.data.Card;
+import com.example.flashnote.data.Tag;
+
 public class PlayCard extends AppCompatActivity {
 
     @Override
@@ -20,30 +23,30 @@ public class PlayCard extends AppCompatActivity {
 
         CardView roundCard = findViewById(R.id.roundCard);
         long avgColor = 0;
-        for(Tag tag:cur.categories) avgColor += Long.parseLong(tag.color.substring(1),16);
-        avgColor /= cur.categories.size();
+        for(Tag tag:cur.getTagList()) avgColor += Long.parseLong(tag.getColour().substring(1),16);
+        avgColor /= cur.getTagList().size();
         roundCard.setCardBackgroundColor(Color.parseColor("#"+Long.toHexString(avgColor)));
 
         TextView categoryView = findViewById(R.id.categoryView);
-        String text = "Categories: ";
-        for(int i=0;i<cur.categories.size()-1;i++) text += cur.categories.get(i).name+",";
-        text += cur.categories.get(cur.categories.size()-1).name;
+        String text = "Tags: ";
+        for(int i=0;i<cur.getTagList().size()-1;i++) text += cur.getTagList().get(i).getName()+",";
+        text += cur.getTagList().get(cur.getTagList().size()-1).getName();
         categoryView.setText(text);
 
         TextView termView = findViewById(R.id.TermView);
-        termView.setText(cur.term);
+        termView.setText(cur.getQuestion());
 
         final TextView defView = findViewById(R.id.defView);
         defView.setText("");
 
         TextView creditLine = findViewById(R.id.creditLine);
-        creditLine.setText("This card was made by "+cur.user+" at "+cur.creationDate);
+        creditLine.setText("This card was made by "+cur.getUsername()+" at "+cur.getTimestamp());
 
         final Button cont = findViewById(R.id.ContinueButton);
         cont.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                defView.setText(cur.definition);
+                defView.setText(cur.getAnswer());
                 State.playingIndex++;
                 if(State.playingIndex >= State.playing.size()){
                     cont.setText("Finish");
