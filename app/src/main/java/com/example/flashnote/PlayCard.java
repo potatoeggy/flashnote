@@ -16,7 +16,7 @@ public class PlayCard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_card);
 
-        Card cur = State.playing.get(State.playingIndex);
+        final Card cur = State.playing.get(State.playingIndex);
 
         CardView roundCard = findViewById(R.id.roundCard);
         long avgColor = 0;
@@ -33,13 +33,13 @@ public class PlayCard extends AppCompatActivity {
         TextView termView = findViewById(R.id.TermView);
         termView.setText(cur.term);
 
-        TextView defView = findViewById(R.id.defView);
+        final TextView defView = findViewById(R.id.defView);
         defView.setText("");
 
         TextView creditLine = findViewById(R.id.creditLine);
         creditLine.setText("This card was made by "+cur.user+" at "+cur.creationDate);
 
-        Button cont = findViewById(R.id.ContinueButton);
+        final Button cont = findViewById(R.id.ContinueButton);
         cont.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

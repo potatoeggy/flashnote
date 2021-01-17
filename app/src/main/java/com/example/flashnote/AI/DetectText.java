@@ -13,11 +13,13 @@ import com.google.protobuf.ByteString;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DetectText {
 	static final String jsonPath = "Flashnote-3278311c8d16.json";
 	
+	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 	protected static ArrayList<String> detectText() throws IOException {
 		String filePath = "OCR_TEST2.jpg";
 		return detectText(filePath);
@@ -35,9 +37,9 @@ public class DetectText {
 		AnnotateImageRequest request =
 				AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
 		requests.add(request);
-		
+
 		GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
-				                                .createScoped(Lists.newArrayList());
+				.createScoped(Lists.newArrayList(Collections.singleton("https://www.googleapis.com/auth/cloud-platform")));
 		
 		
 		// Initialize client that will be used to send requests. This client only needs to be created
