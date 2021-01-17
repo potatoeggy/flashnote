@@ -6,17 +6,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.flashnote.data.ApiService;
 import com.example.flashnote.data.DataState;
+import com.example.flashnote.data.DataStateHelper;
+import com.example.flashnote.data.User;
 import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        File f = new File("yo.txt");
-        System.out.println(f.getAbsoluteFile());
         if(State.justRegistered){
             State.justRegistered = false;
             Snackbar.make(findViewById(R.id.username), "Account registered successfully!", Snackbar.LENGTH_LONG).show();
@@ -39,6 +42,10 @@ public class LoginActivity extends AppCompatActivity {
                 else if(password.getText().toString().trim().length() < 8) error = "Password must be at least 8 characters long";
                 if(error == null){
                     //TODO - DB request (still set error if bad)
+                    ApiService.getUserByUsername(username.getText().toString().trim());
+                    List<User> candidates = DataStateHelper.getClientUserList();
+                    if (candidates.size() == 0) error = "Invalid credentials";
+                    else if (!candidates.get(0).getPassword().equals(password.getText().toString().trim())) error = "Invalid credentials";
                     if(error == null){
                         State.user = username.getText().toString().trim();
                         DataState.setLocalUsername(State.user);

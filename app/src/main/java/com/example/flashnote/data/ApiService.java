@@ -5,10 +5,13 @@ import com.google.gson.JsonObject;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -264,9 +267,11 @@ public class ApiService {
                 DataStateHelper.getHelperLock();
                 Call<ResponseBody> fileCall = uploadService.addFileToAmazon(job.getUploadUrl(), body);
                 try {
+                    System.out.println("Trying to upload to Dropbase");
                     Response<ResponseBody> fileResponse = fileCall.execute();
+                    System.out.println(fileResponse.message());
                     if (fileResponse.isSuccessful()) {
-                        System.out.println("Successful upload to Dropbase (probably, they don't have a GET API that Retrofit supports)");
+                        System.out.println("Successful upload to Dropbase (probably, Retrofit doesn't like GET with bodies)");
                         System.out.println(fileResponse.toString());
                     } else {
                         System.out.println(fileResponse.toString());
@@ -277,6 +282,7 @@ public class ApiService {
                 DataStateHelper.dropHelperLock();
             }
         }.start();
+
     }
     
     public static boolean addUser(User user) {
@@ -285,10 +291,14 @@ public class ApiService {
         try {
             System.out.println("Checking for " + users.get(0));
             System.out.println(user.getUsername() + " already taken");
-        } catch (NullPointerException e) {
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Unused user, creating new account");
             getDropbaseUploadJob(DROPBASE_USER_PIPELINE);
             DropbaseUploadJob userJob = DataStateHelper.getClientUploadJob();
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), ApiAdapter.gson.toJson(user).toString());
+            System.out.println(userJob.getJobId());
+            System.out.println(userJob.getUploadUrl());
+            RequestBody body = RequestBody.create(MediaType.parse("application/octet"), ApiAdapter.gson.toJson(user).toString());
+            System.out.println(ApiAdapter.gson.toJson(user).toString());
             uploadDropbase(userJob, body);
             return true;
         }

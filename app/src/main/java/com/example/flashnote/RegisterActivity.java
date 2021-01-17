@@ -8,7 +8,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.flashnote.data.ApiService;
+import com.example.flashnote.data.DataStateHelper;
+import com.example.flashnote.data.User;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
     @Override
@@ -28,6 +33,15 @@ public class RegisterActivity extends AppCompatActivity {
                 else if(password.getText().toString().trim().length() < 8) error = "Password must be at least 8 characters long";
                 if(error == null){
                     //TODO - DB request (still set error if bad)
+                    ApiService.getUserByUsername(username.getText().toString().trim());
+                    List<User> candidates = DataStateHelper.getClientUserList();
+                    if (candidates == null) {
+                        System.out.println("Network error");
+                    } else if (candidates.size() == 0) {
+                        ApiService.addUser(new User(username.getText().toString().trim(), password.getText().toString()));
+                    } else {
+                        error = "User already exists";
+                    }
                     if(error == null){
                         State.justRegistered = true;
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);

@@ -11,8 +11,9 @@ public class User extends DropbaseData {
     @Expose
     private String password;
     
-    public User(String username) {
+    public User(String username, String password) {
         this.username = username;
+        this.password = password;
     }
     
     public String getUsername() {

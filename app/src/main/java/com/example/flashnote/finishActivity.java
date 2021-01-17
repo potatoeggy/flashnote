@@ -1,6 +1,7 @@
 package com.example.flashnote;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -84,7 +85,7 @@ public class finishActivity extends AppCompatActivity {
                     try{
                         Color.parseColor(tagColor.getText().toString().trim());
                     } catch(Exception e){
-                        notif("Invalid Color code");
+                        notif("Invalid color code");
                         return;
                     }
 
@@ -152,6 +153,8 @@ public class finishActivity extends AppCompatActivity {
                    State.newCards.get(i).setQuestion(terms.get(i).getText().toString());
                    State.newCards.get(i).setAnswer(defs.get(i).getText().toString());
                }
+               Intent intent = new Intent(finishActivity.this, MainActivity.class);
+               startActivity(intent);
            }
         });
 

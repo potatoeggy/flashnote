@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 // manages the two retrofits
 public class ApiAdapter {
     private static Retrofit queryRetrofit;
@@ -39,7 +40,7 @@ public class ApiAdapter {
         if (emptyRetrofit == null) {
             emptyRetrofit = new Retrofit
                     .Builder()
-                    .baseUrl("https://thisshouldnotbeused")
+                    .baseUrl("https://dropbase2-pipeline-jobs.s3.amazonaws.com/")
                     .build();
         }
         return emptyRetrofit;
