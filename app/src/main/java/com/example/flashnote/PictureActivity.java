@@ -8,20 +8,25 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.example.flashnote.data.Card;
+import com.example.flashnote.data.Tag;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class PictureActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA = 1;
     @RequiresApi(api = Build.VERSION_CODES.M)
-
-
 
     String photoPath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -63,7 +68,7 @@ public class PictureActivity extends AppCompatActivity {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 //System.out.println("AWOWOAWOOAWOAOWOAOWOAOWOAOO "+activity.checkSelfPermission(Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED+" WOOT");
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                System.out.println("yeet 1");
+                System.out.println("yeet 1 "+photoPath);
             }
         }
     }
@@ -81,9 +86,19 @@ public class PictureActivity extends AppCompatActivity {
 
         new Thread(){
             @Override
-            public void run(){
+            public void run() {
                 while(new File(photoPath).length() == 0);
-                System.out.println("GOT THE BREAD BROOOOOOOOO");
+                System.out.println("yea we got hear");
+                try {
+                    com.example.flashnote.AI.DetectText.context = PictureActivity.this;
+                    com.example.flashnote.AI.NLP.context = PictureActivity.this;
+                    com.example.flashnote.State.newCards = com.example.flashnote.AI.AI.parseImageToCard(new FileInputStream(photoPath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //com.example.flashnote.State.newCards.add(new Card("james","termu","defuu",new ArrayList<Tag>()));
+                Intent intent = new Intent(PictureActivity.this, finishActivity.class);
+                startActivity(intent);
             }
         }.start();
         //System.out.println(new File(photoPath).toString());
