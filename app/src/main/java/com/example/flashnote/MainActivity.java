@@ -16,11 +16,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+
+import com.example.flashnote.data.Card;
+import com.example.flashnote.data.Tag;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Card> cards = new ArrayList<>();
 
     void makeDummy(){
-        ArrayList<Tag> tags = new ArrayList<>();
-        tags.add(new Tag("#FFC0CB","test"));
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("test", "lakshy", "#FFC0CB"));
         Date creation = new Date();
-        dummy = new Card(tags, "termmyTerm", "definteely a def",creation,"urmom");
+        dummy = new Card("urmom","termmyTerm", "definteely a def", tags);
     }
 
     @SuppressLint("ResourceType")
@@ -42,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Tag> tags = new ArrayList<>();
         for(Card card:cards){
-            for(Tag tag:card.categories){
+            for(Tag tag:card.getTagList()){
                 if(!tags.contains(tag)) tags.add(tag);
             }
         }
 
-        System.out.println("REEEEEEEEEEEEEEEEEEEEEEEEEE"+tags.get(0).name+"REEEEEEEEEEEEEEEEEEEEEEEE");
+        System.out.println("REEEEEEEEEEEEEEEEEEEEEEEEEE"+tags.get(0).getName()+"REEEEEEEEEEEEEEEEEEEEEEEE");
 
         LinearLayout playLayout = findViewById(R.id.playLayout);
         for(final Tag tag:tags){
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(700, 200);
             cardParams.gravity = Gravity.CENTER;
             card.setLayoutParams(cardParams);
-            card.setCardBackgroundColor(Color.parseColor(tag.color));
+            card.setCardBackgroundColor(Color.parseColor(tag.getColour()));
             card.setRadius(30);
             playLayout.addView(card);
 
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             card.addView(subLayout);
 
             TextView nameView = new TextView(this);
-            nameView.setText(tag.name);
+            nameView.setText(tag.getName());
             nameView.setTextSize(22);
             nameView.setLayoutParams(new ConstraintLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             nameView.setId(456);
@@ -110,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
                     State.playing = new ArrayList<>();
                     State.playingIndex = 0;
                  o: for(Card card:cards){
-                        for(Tag curTag:card.categories){
-                            if(curTag.name.equals(tag.name)){
+                        for(Tag curTag:card.getTagList()){
+                            if(curTag.getName().equals(tag.getName())){
                                 State.playing.add(card);
                                 continue o;
                             }
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(State.justLoggedIn){
             State.justLoggedIn = false;
-            Snackbar.make(findViewById(R.id.playLayout), "Logged in Successfully!", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.playLayout), "Logged in successfully!", Snackbar.LENGTH_LONG).show();
         }
 
         FloatingActionButton fab = findViewById(R.id.fab);

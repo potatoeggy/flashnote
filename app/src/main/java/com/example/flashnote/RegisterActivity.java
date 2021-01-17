@@ -23,7 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String error = null;
                 if(username.getText().toString().trim().length() == 0) error = "Username required";
                 else if(password.getText().toString().trim().length() == 0) error = "Password required";
-                else if(password.getText().toString().trim().length() < 8) error = "Password must be atleast 8 characters long";
+                else if(password.getText().toString().trim().length() < 8) error = "Password must be at least 8 characters long";
                 if(error == null){
                     //TODO - DB request (still set error if bad)
                     if(error == null){

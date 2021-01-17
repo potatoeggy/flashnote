@@ -14,6 +14,9 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.example.flashnote.data.Card;
+import com.example.flashnote.data.Tag;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -24,9 +27,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     void makeDummy(){
         ArrayList<Tag> tags = new ArrayList<>();
-        tags.add(new Tag("#FFC0CB","test"));
+        tags.add(new Tag("test","laksh", "#FFC0CB"));
         Date creation = new Date();
-        dummy = new Card(tags, "termemaiterm", "definteteelyreetlyely a def",creation,"james");
+        dummy = new Card("james", "termemaiterm", "definteteelyreetlyely a def", tags);
     }
 
     @SuppressLint("ResourceType")
@@ -36,12 +39,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         ArrayList<Tag> tags = new ArrayList<>();
         for(Card card:userCards){
-            for(Tag tag:card.categories){
+            for(Tag tag:card.getTagList()){
                 if(!tags.contains(tag)) tags.add(tag);
             }
         }
 
-        System.out.println("REEEEEEEEEEEEEE 33333 EEEEEEEEEEEE"+tags.get(0).name+"REEEEEEEEEEEEEEEEEEEEEEEE");
+        System.out.println("REEEEEEEEEEEEEE 33333 EEEEEEEEEEEE"+tags.get(0).getName()+"REEEEEEEEEEEEEEEEEEEEEEEE");
 
         LinearLayout playLayout = findViewById(R.id.cardLayout);
         for(final Tag tag:tags){
@@ -49,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
             LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(700, 200);
             cardParams.gravity = Gravity.CENTER;
             card.setLayoutParams(cardParams);
-            card.setCardBackgroundColor(Color.parseColor(tag.color));
+            card.setCardBackgroundColor(Color.parseColor(tag.getColour()));
             card.setRadius(30);
             playLayout.addView(card);
 
@@ -62,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
             card.addView(subLayout);
 
             TextView nameView = new TextView(this);
-            nameView.setText(tag.name);
+            nameView.setText(tag.getName());
             nameView.setTextSize(22);
             nameView.setLayoutParams(new ConstraintLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             nameView.setId(4566);
@@ -104,8 +107,8 @@ public class ProfileActivity extends AppCompatActivity {
                     State.playing = new ArrayList<>();
                     State.playingIndex = 0;
                     o: for(final Card card:userCards){
-                        for(final Tag curTag:card.categories){
-                            if(curTag.name.equals(tag.name)){
+                        for(final Tag curTag:card.getTagList()){
+                            if(curTag.getName().equals(tag.getName())){
                                 State.playing.add(card);
                                 continue o;
                             }
