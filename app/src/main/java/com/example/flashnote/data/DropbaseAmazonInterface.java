@@ -10,12 +10,12 @@ import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
 
 public interface DropbaseAmazonInterface {
     @PUT()
-    @Headers({"Content-Type: text/plain"})
     Call<ResponseBody> addFileToAmazon(@Url String url, @Body RequestBody data);
 }

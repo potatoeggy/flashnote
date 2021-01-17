@@ -321,6 +321,7 @@ public class ApiService {
         DropbaseUploadJob cardJob = DataStateHelper.getClientUploadJob();
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), ApiAdapter.gson.toJson(cards).toString());
         uploadDropbase(cardJob, body);
+        System.out.println();
 
         getDropbaseUploadJob(DROPBASE_TAG_PIPELINE);
         DropbaseUploadJob tagJob = DataStateHelper.getClientUploadJob();
