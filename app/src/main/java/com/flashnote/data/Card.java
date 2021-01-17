@@ -25,6 +25,11 @@ public class Card extends DropbaseData {
         this.question = question;
         this.answer = answer;
         this.tagList = tagList;
+        this.tags = "";
+        for (Tag t : tagList) {
+            this.tags += t.getName() + ":" + t.getColour() + ",";
+        }
+        this.tags = this.tags.substring(0, this.tags.length()-1);
     }
     
     public String getUsername() {
@@ -65,6 +70,7 @@ public class Card extends DropbaseData {
     public void setTagList(List<Tag> tagList) {
         this.tagList = tagList;
         this.tags = "";
+        if (tagList == null) return;
         for (Tag t : tagList) {
             this.tags += t.getName() + ":" +t.getColour() + ",";
         }

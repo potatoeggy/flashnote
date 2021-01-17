@@ -8,7 +8,9 @@ public class DataState {
     private static boolean ready = false;
     private static List<Tag> tagList;
     private static List<Card> cardList;
-    private static User user;
+    private static List<User> userList;
+    private static DropbaseUploadJob uploadJob;
+    //private static DropbaseUploadStatus uploadStatus;
     
     public static void setLocalUsername(String username) {
         localUsername = username;
@@ -34,9 +36,19 @@ public class DataState {
         return cardList;
     }
     
-    public static User getUser() {
-        return user;
+    public static List<User> getUserList() {
+        return userList;
     }
+    
+    public static DropbaseUploadJob getUploadJob() {
+        return uploadJob;
+    }
+
+    /*
+    public static DropbaseUploadStatus getUploadStatus() {
+        return uploadStatus;
+    }
+     */
     
     public static void setApiLock(boolean bool) {
         apiLock = bool;
@@ -54,7 +66,17 @@ public class DataState {
         cardList = cards;
     }
     
-    public static void setUser(User username) {
-        user = username;
+    public static void setUserList(List<User> users) {
+        userList = users;
     }
+    
+    public static void setUploadJob(DropbaseUploadJob job) {
+        uploadJob = job;
+    }
+
+    /*
+    public static void setUploadStatus(DropbaseUploadStatus status) {
+        uploadStatus = status;
+    }
+     */
 }

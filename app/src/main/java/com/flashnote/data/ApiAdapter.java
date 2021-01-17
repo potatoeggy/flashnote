@@ -10,7 +10,7 @@ public class ApiAdapter {
     private static Retrofit queryRetrofit;
     private static Retrofit pipelineRetrofit;
     private static Retrofit emptyRetrofit;
-    private static Gson gson = new GsonBuilder().create();
+    public static Gson gson = new GsonBuilder().create();
     
     public static Retrofit getQueryRetrofit() {
         if (queryRetrofit == null) {
@@ -39,7 +39,6 @@ public class ApiAdapter {
             emptyRetrofit = new Retrofit
                     .Builder()
                     .baseUrl("https://thisshouldnotbeused")
-                    .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return emptyRetrofit;

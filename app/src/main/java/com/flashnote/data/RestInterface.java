@@ -20,12 +20,12 @@ public interface RestInterface {
     @GET("/{db}/users")
     Call<List<User>> getAllUsers(@Path("db") String db, @Header("Authorization") String token);
 
-    @GET("/{db}/cards2")
+    @GET("/{db}/cards3")
     Call<List<Card>> getCardsById(@Path("db") String db, @Header("Authorization") String token, @Query(value = "dropbase_id", encoded = true) String ids);
-    @GET("/{db}/cards2")
+    @GET("/{db}/cards3")
     Call<List<Card>> getCardsByUsername(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) List<String> usernames);
-    @GET("/{db}/cards2")
-    Call<List<Card>> getAllCards(@Path("db") String db, @Header("Authorization") String token);
+    @GET("/{db}/cards3")
+    Call<List<Card>> getCardsBySpecificity(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) String username, @Query(value = "question", encoded = true) String question, @Query(value = "answer", encoded = true) String answer);
 
     @GET("/{db}/maps")
     Call<List<IdMap>> getMapByCardId(@Path("db") String db, @Header("Authorization") String token, @Query(value = "cardid", encoded = true) List<String> cardIds);
@@ -40,7 +40,4 @@ public interface RestInterface {
     Call<List<Tag>> getTagByNameAndUsername(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) String usernames, @Query(value = "name", encoded = true) String tags);
     @GET("/{db}/tags")
     Call<List<Tag>> getAllTags(@Path("db") String db, @Header("Authorization") String token);
-    
-    @GET("/{db}/users")
-    Call<List<User>> getUser(@Path("db") String db, @Header("Authorization") String token, @Query(value = "username", encoded = true) String username);
 }

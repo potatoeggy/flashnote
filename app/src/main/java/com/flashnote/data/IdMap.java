@@ -11,6 +11,11 @@ public class IdMap extends DropbaseData {
     @Expose
     private String tagid;
     
+    public IdMap(String cardid, String tagid) {
+        this.cardid = cardid;
+        this.tagid = tagid;
+    }
+    
     public String getCardId() {
         return this.cardid;
     }

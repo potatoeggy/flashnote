@@ -48,4 +48,8 @@ public class Tag extends DropbaseData {
     public String toString() {
         return this.name + " " + this.username + " " + this.colour;
     }
+    
+    public boolean equals(Tag other) {
+        return this.name == other.name && this.username == other.username && this.colour == other.colour;
+    }
 }
