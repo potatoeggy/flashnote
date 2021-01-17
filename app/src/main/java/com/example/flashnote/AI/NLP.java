@@ -90,8 +90,8 @@ public class NLP {
 				}
 			}
 			
-			assert largestT != null;
-			Document document2 = Document.newBuilder().setContent(largestT.getText().getContent()).setType(Document.Type.PLAIN_TEXT).build();
+			if (largestT == null) return null;
+ 			Document document2 = Document.newBuilder().setContent(largestT.getText().getContent()).setType(Document.Type.PLAIN_TEXT).build();
 			AnalyzeEntitiesRequest requestEntity =
 					AnalyzeEntitiesRequest.newBuilder()
 							.setDocument(document2)

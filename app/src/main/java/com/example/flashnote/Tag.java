@@ -1,5 +1,6 @@
 package com.example.flashnote;
 
+//TODO: Remove once code is refactored
 public class Tag {
     String color;
     String name;

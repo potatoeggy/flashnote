@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+//TODO: Remove once code is refactored
 public class Card {
     ArrayList<Tag> categories;
     String term;
