@@ -25,11 +25,15 @@ import android.widget.TextView;
 
 import com.example.flashnote.data.Card;
 import com.example.flashnote.data.Tag;
+
+import com.example.flashnote.data.Card;
+import com.example.flashnote.data.Tag;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("REEEEEEEEEEEEEEEEEEEEEEEEEE"+tags.get(0).getName()+"REEEEEEEEEEEEEEEEEEEEEEEE");
 
         LinearLayout playLayout = findViewById(R.id.playLayout);
-        for(Tag tag:tags){
+        for(final Tag tag:tags){
             CardView card = new CardView(this);
             LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(700, 200);
             cardParams.gravity = Gravity.CENTER;
@@ -145,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(State.justLoggedIn){
             State.justLoggedIn = false;
-            Snackbar.make(findViewById(R.id.playLayout), "Logged in Successfully!", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.playLayout), "Logged in successfully!", Snackbar.LENGTH_LONG).show();
         }
 
         FloatingActionButton fab = findViewById(R.id.fab);

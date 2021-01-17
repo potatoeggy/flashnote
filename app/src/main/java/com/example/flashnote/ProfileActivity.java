@@ -48,7 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
         System.out.println("REEEEEEEEEEEEEE 33333 EEEEEEEEEEEE"+tags.get(0).getName()+"REEEEEEEEEEEEEEEEEEEEEEEE");
 
         LinearLayout playLayout = findViewById(R.id.cardLayout);
-        for(Tag tag:tags){
+        for(final Tag tag:tags){
             CardView card = new CardView(this);
             LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(700, 200);
             cardParams.gravity = Gravity.CENTER;
@@ -107,8 +107,8 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     State.playing = new ArrayList<>();
                     State.playingIndex = 0;
-                    o: for(Card card:userCards){
-                        for(Tag curTag:card.getTagList()){
+                    o: for(final Card card:userCards){
+                        for(final Tag curTag:card.getTagList()){
                             if(curTag.getName().equals(tag.getName())){
                                 State.playing.add(card);
                                 continue o;

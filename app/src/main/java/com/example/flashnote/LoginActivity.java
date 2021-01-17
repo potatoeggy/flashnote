@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.flashnote.data.DataState;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.io.File;
 
 public class LoginActivity extends AppCompatActivity {
@@ -21,16 +19,16 @@ public class LoginActivity extends AppCompatActivity {
         System.out.println(f.getAbsoluteFile());
         if(State.justRegistered){
             State.justRegistered = false;
-            Snackbar.make(findViewById(R.id.username), "Successful Account Creation!", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.username), "Account registered successfully!", Snackbar.LENGTH_LONG).show();
         }
 
         if(State.justLoggedOut){
             State.justLoggedOut = false;
-            Snackbar.make(findViewById(R.id.username), "Logged Out successfully!", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.username), "Logged out successfully!", Snackbar.LENGTH_LONG).show();
         }
 
-        TextView username = findViewById(R.id.username);
-        TextView password = findViewById(R.id.password);
+        final TextView username = findViewById(R.id.username);
+        final TextView password = findViewById(R.id.password);
         Button auth = findViewById(R.id.loginButton);
         auth.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -38,11 +36,12 @@ public class LoginActivity extends AppCompatActivity {
                 String error = null;
                 if(username.getText().toString().trim().length() == 0) error = "Username required";
                 else if(password.getText().toString().trim().length() == 0) error = "Password required";
-                else if(password.getText().toString().trim().length() < 8) error = "Password must be atleast 8 characters long";
+                else if(password.getText().toString().trim().length() < 8) error = "Password must be at least 8 characters long";
                 if(error == null){
                     //TODO - DB request (still set error if bad)
                     if(error == null){
                         State.user = username.getText().toString().trim();
+                        DataState.setLocalUsername(State.user);
                         State.justLoggedIn = true;
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);

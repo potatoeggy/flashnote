@@ -14,6 +14,9 @@ import android.widget.TextView;
 import com.example.flashnote.data.Card;
 import com.example.flashnote.data.Tag;
 
+import com.example.flashnote.data.Card;
+import com.example.flashnote.data.Tag;
+
 public class PlayCard extends AppCompatActivity {
 
     @Override
@@ -21,7 +24,7 @@ public class PlayCard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_card);
 
-        Card cur = State.playing.get(State.playingIndex);
+        final Card cur = State.playing.get(State.playingIndex);
 
         CardView roundCard = findViewById(R.id.roundCard);
         long avgColor = 0;
@@ -30,7 +33,7 @@ public class PlayCard extends AppCompatActivity {
         roundCard.setCardBackgroundColor(Color.parseColor("#"+Long.toHexString(avgColor)));
 
         TextView categoryView = findViewById(R.id.categoryView);
-        String text = "Categories: ";
+        String text = "Tags: ";
         for(int i=0;i<cur.getTagList().size()-1;i++) text += cur.getTagList().get(i).getName()+",";
         text += cur.getTagList().get(cur.getTagList().size()-1).getName();
         categoryView.setText(text);
@@ -38,13 +41,13 @@ public class PlayCard extends AppCompatActivity {
         TextView termView = findViewById(R.id.TermView);
         termView.setText(cur.getQuestion());
 
-        TextView defView = findViewById(R.id.defView);
+        final TextView defView = findViewById(R.id.defView);
         defView.setText("");
 
         TextView creditLine = findViewById(R.id.creditLine);
-        creditLine.setText("This card was made by "+cur.getUsername());
+        creditLine.setText("This card was made by "+cur.getUsername()+" at "+cur.getTimestamp());
 
-        Button cont = findViewById(R.id.ContinueButton);
+        final Button cont = findViewById(R.id.ContinueButton);
         cont.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

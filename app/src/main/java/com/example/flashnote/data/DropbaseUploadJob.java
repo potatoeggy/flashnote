@@ -12,7 +12,7 @@ public class DropbaseUploadJob {
     private String job_id;
     @SerializedName("token")
     @Expose
-    private final String token;
+    private String token;
     
     public DropbaseUploadJob(String token) {
         this.token = token;

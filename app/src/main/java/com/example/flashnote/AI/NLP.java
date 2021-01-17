@@ -47,7 +47,7 @@ public class NLP {
 	protected static Card analyzeText (String text) throws IOException {
 		AssetManager assetManager = context.getAssets();
 		GoogleCredentials credentials = GoogleCredentials.fromStream(assetManager.open(jsonPath))
-				                                .createScoped(Lists.newArrayList(Collections.singleton("https://www.googleapis.com/auth/cloud-platform")));
+				.createScoped(Lists.newArrayList(Collections.singleton("https://www.googleapis.com/auth/cloud-platform")));
 		LanguageServiceSettings languageServiceSettings =
 				LanguageServiceSettings.newBuilder()
 						.setCredentialsProvider(FixedCredentialsProvider.create(credentials))

@@ -37,9 +37,9 @@ public class DetectText {
 		AnnotateImageRequest request =
 				AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
 		requests.add(request);
-		
+
 		GoogleCredentials credentials = GoogleCredentials.fromStream(assetManager.open(jsonPath))
-				                                .createScoped(Lists.newArrayList(Collections.singleton("https://www.googleapis.com/auth/cloud-platform")));
+				.createScoped(Lists.newArrayList(Collections.singleton("https://www.googleapis.com/auth/cloud-platform")));
 		
 		
 		// Initialize client that will be used to send requests. This client only needs to be created
