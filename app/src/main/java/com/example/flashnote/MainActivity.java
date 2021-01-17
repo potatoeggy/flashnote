@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(State.justLoggedIn){
             State.justLoggedIn = false;
-            Snackbar.make(findViewById(R.id.playLayout), "Logged in Successfully!", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.playLayout), "Logged in successfully!", Snackbar.LENGTH_LONG).show();
         }
 
         FloatingActionButton fab = findViewById(R.id.fab);

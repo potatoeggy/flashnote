@@ -19,12 +19,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if(State.justRegistered){
             State.justRegistered = false;
-            Snackbar.make(findViewById(R.id.username), "Successful Account Creation!", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.username), "Account registered successfully!", Snackbar.LENGTH_LONG).show();
         }
 
         if(State.justLoggedOut){
             State.justLoggedOut = false;
-            Snackbar.make(findViewById(R.id.username), "Logged Out successfully!", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.username), "Logged out successfully!", Snackbar.LENGTH_LONG).show();
         }
 
         final TextView username = findViewById(R.id.username);
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
                 String error = null;
                 if(username.getText().toString().trim().length() == 0) error = "Username required";
                 else if(password.getText().toString().trim().length() == 0) error = "Password required";
-                else if(password.getText().toString().trim().length() < 8) error = "Password must be atleast 8 characters long";
+                else if(password.getText().toString().trim().length() < 8) error = "Password must be at least 8 characters long";
                 if(error == null){
                     //TODO - DB request (still set error if bad)
                     if(error == null){
