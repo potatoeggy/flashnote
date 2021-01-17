@@ -296,7 +296,7 @@ public class ApiService {
     }
     
     public static void pushCards(final List<Card> cards) {
-        getTagsByUsername(DataState.getLocalUsername());
+        getTagsByUsername("eq." + DataState.getLocalUsername());
         List<Tag> internetTags = DataStateHelper.getClientTagList();
 
         List<Tag> tagsToPush = new ArrayList<Tag>();
@@ -317,7 +317,7 @@ public class ApiService {
         body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), ApiAdapter.gson.toJson(tagsToPush).toString());
         uploadDropbase(tagJob, body);
 
-        getCardsByUsername(DataState.getLocalUsername());
+        getCardsByUsername("eq." + DataState.getLocalUsername());
         List<Card> internetCards = DataStateHelper.getClientCardList();
         List<IdMap> idMapsToPush = new ArrayList<IdMap>();
         for (Card c : cards) {

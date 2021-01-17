@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.flashnote.data.DataState;
+import com.example.flashnote.data.DataStateHelper;
 import com.google.android.material.snackbar.Snackbar;
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
                     //TODO - DB request (still set error if bad)
                     if(error == null){
                         State.user = username.getText().toString().trim();
+                        DataState.setLocalUsername(State.user);
                         State.justLoggedIn = true;
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
