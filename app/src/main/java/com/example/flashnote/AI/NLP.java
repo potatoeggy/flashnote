@@ -24,8 +24,10 @@ public class NLP {
 		String continued = "";
 		for (int i = 0; i < text.size(); i++) {
 			String line = text.get(i);
-			while (line.contains(".")) {
-				parsed.add(continued + line.substring(0, line.indexOf('.') + 1));
+			while (line.contains(".") || line.contains(";")) {
+				parsed.add((continued + line.substring(0, line.indexOf('.') + 1))
+						           .replace("=", "is")
+						           .replace("->", "is"));
 				continued = "";
 				line = line.substring(line.indexOf('.')+1);
 			}
