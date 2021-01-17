@@ -20,7 +20,7 @@ public class NLP {
 	
 	static final String jsonPath = "Flashnote-3278311c8d16.json";
 	
-	static private Context context;
+	static public Context context;
 	
 	public NLP(Context context) {
 		NLP.context = context;

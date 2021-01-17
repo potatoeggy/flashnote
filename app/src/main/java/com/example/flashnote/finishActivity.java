@@ -4,22 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Space;
-import android.widget.TextView;
-
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-
 import com.example.flashnote.data.Card;
 import com.example.flashnote.data.Tag;
 import com.google.android.material.chip.Chip;
@@ -82,9 +72,9 @@ public class finishActivity extends AppCompatActivity {
         }
 
         Button newtag = findViewById(R.id.newtag);
-        EditText tagName = findViewById(R.id.tagname);
-        EditText tagColor = findViewById(R.id.tagcolor);
-        LinearLayout tagLayout = findViewById(R.id.tagLayout);
+        final EditText tagName = findViewById(R.id.tagname);
+        final EditText tagColor = findViewById(R.id.tagcolor);
+        final LinearLayout tagLayout = findViewById(R.id.tagLayout);
         newtag.setOnClickListener(new View.OnClickListener(){
             @SuppressLint("ResourceType")
             @Override
