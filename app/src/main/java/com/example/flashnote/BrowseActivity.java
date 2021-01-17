@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class BrowseActivity extends AppCompatActivity {
         users.add("rubber duck"); //would be data base stuffs
         users.add("another rubber duck"); //would be data base stuffs
         LinearLayout userLayout = findViewById(R.id.userLayout);
-        for(final String user:users){
+        for(String user:users){
             Button curUser = new Button(this);
             curUser.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200));
             userLayout.addView(curUser);
