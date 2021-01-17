@@ -5,15 +5,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
+
+import java.io.File;
 
 public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        File f = new File("yo.txt");
+        System.out.println(f.getAbsoluteFile());
         if(State.justRegistered){
             State.justRegistered = false;
             Snackbar.make(findViewById(R.id.username), "Successful Account Creation!", Snackbar.LENGTH_LONG).show();
@@ -24,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.username), "Logged Out successfully!", Snackbar.LENGTH_LONG).show();
         }
 
-        final TextView username = findViewById(R.id.username);
-        final TextView password = findViewById(R.id.password);
+        TextView username = findViewById(R.id.username);
+        TextView password = findViewById(R.id.password);
         Button auth = findViewById(R.id.loginButton);
         auth.setOnClickListener(new View.OnClickListener(){
             @Override
